@@ -37,8 +37,8 @@ void initializeFile(void) {
 
 void printMenu(void) {
     printf("\033[1;31m===== To-Do Application =====\033[0m\n");
-    printf("1. Create New To-Do List\n");
-    printf("2. View All To-Do Lists\n");
+    printf("1. Create New To-Do Item\n");
+    printf("2. View All To-Do Items\n");
     printf("3. Mark Item as Completed\n");
     printf("4. Delete a To-Do Item\n");
     printf("5. Exit\n");
@@ -152,6 +152,20 @@ void markItemAsCompleted(void) {
     fclose(file);
 
     printf("Task marked as completed!\n");
+    
+    int allCompleted = 1;
+    for (int i = 0; i < count; i++) {
+        if (strncmp(tasks[i], "[X] ", 4) != 0) {
+            allCompleted = 0;
+            break;
+        }
+    }
+
+    if (allCompleted) {
+        file = fopen(FILE_NAME, "w"); // open and immediately close to clear contents
+        if (file) fclose(file);
+        printf("All tasks completed! To-do list has been cleared.\n");
+    }
 }
 
 void deleteToDoItem(void) {
